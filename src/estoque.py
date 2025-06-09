@@ -1,26 +1,36 @@
-from random import randint
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
+
+from CRUD import Database
+from src.entity.Produtos import Produtos
 
 
 class Estoque:
     def __init__(self):
-        self.gerarCodigo()
+        self.produtos = None
+        self.itemSelecionado = None
         self.tela()
 
     def tela(self):
+        db = Database("banco.db")
         janela = Tk()
         janela.title("Estoque")
         janela.state('zoomed')
         janela.resizable(False, False)
+
+        def puxarTelaDeVendas():
+            from main import Main
+            janela.destroy()
+            Main()
+
         menuBarra = Menu(janela)
 
         menuArquivo = Menu(menuBarra, tearoff=0)
-        menuArquivo.add_command(label="Novo")
-        menuArquivo.add_command(label="Abrir")
+        menuArquivo.add_command(label="Vendas", command=puxarTelaDeVendas)
         menuArquivo.add_separator()
         menuArquivo.add_command(label="Sair", command=janela.quit)
-        menuBarra.add_cascade(label="Arquivo", menu=menuArquivo)
+        menuBarra.add_cascade(label="Menu", menu=menuArquivo)
 
         janela.config(menu=menuBarra)
 
@@ -48,6 +58,93 @@ class Estoque:
         entryValor = Entry(frameCadastro)
         entryValor.grid(row=2, column=1, padx=5, pady=5)
 
+        def limparEntry():
+            entryProduto.delete(0, END)
+            entryQtd.delete(0, END)
+            entryValor.delete(0, END)
+
+        def cadastrarItem():
+            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "":
+                return messagebox.showerror("Erro", "Todos os Campos devem ser preenchidos!")
+            try:
+                quantidade = int(entryQtd.get())
+                valor = float(entryValor.get().replace(",", "."))
+
+                produto = Produtos(entryProduto.get().capitalize(), quantidade, valor)
+                db.insert(produto)
+                preencherList()
+                messagebox.showinfo("Sucesso", "Produto cadastrado com sucesso!")
+                limparEntry()
+
+            except ValueError:
+                messagebox.showerror("Erro", "Quantidade e valor devem ser números.")
+            except Exception as e:
+                messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
+
+        buttonCadastrar = Button(frameCadastro, text="cadastrar item", width=40, command=cadastrarItem)
+        buttonCadastrar.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+
+        def atualizarItem():
+            if self.itemSelecionado is None or self.itemSelecionado == '':
+                return messagebox.showerror("Erro", "Selecione um item")
+
+            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "":
+                return messagebox.showerror("Erro", "Todos os Campos devem ser preenchidos!")
+
+            try:
+                quantidade = int(entryQtd.get())
+                valor = float(entryValor.get().replace(",", "."))
+
+                # Aqui pegamos os valores da linha selecionada
+                item_id = self.itemSelecionado
+                valores = tree.item(item_id, 'values')  # Essa é a tupla correta
+
+                produto = Produtos(
+                    nome=entryProduto.get().capitalize(),
+                    quantidade=quantidade,
+                    valor=valor,
+                    codigo=valores[1],  # código original
+                    data=valores[5]  # data original
+                )
+                db.update(valores[0], produto)  # valores[0] = ID do produto no banco
+                preencherList()
+                limparEntry()
+                messagebox.showinfo("Sucesso", "Produto atualizado com sucesso!")
+
+            except ValueError:
+                messagebox.showerror("Erro", "Quantidade e valor devem ser números.")
+            except Exception as e:
+                messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
+
+        buttonAtualizar = Button(frameCadastro, text="Atualizar item", width=40, command=atualizarItem)
+        buttonAtualizar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
+        def deleterItem():
+            if self.itemSelecionado is None or self.itemSelecionado == '':
+                return messagebox.showerror("Erro", "Selecione um item")
+
+            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "":
+                return messagebox.showerror("Erro", "Todos os Campos devem ser preenchidos!")
+
+            try:
+                item_id = self.itemSelecionado
+                valores = tree.item(item_id, 'values')  # Essa é a tupla correta
+
+                resposta = messagebox.askokcancel("Alerta!!!", f"remover realmente deletar esse item? '{valores[2]}'")
+                if resposta:
+                    db.remove(valores[0])
+                    preencherList()
+                    limparEntry()
+                    messagebox.showinfo("Sucesso", "item removido com sucesso!!!")
+
+            except ValueError:
+                messagebox.showerror("Erro", "Quantidade e valor devem ser números.")
+            except Exception as e:
+                messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
+
+        buttonAtualizar = Button(frameCadastro, text="Deletar item", width=40, command=deleterItem)
+        buttonAtualizar.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+
         frameTopo = Frame(framePrincipal, bg='brown')
         frameTopo.pack(fill=BOTH, expand=True, side=TOP)
 
@@ -63,61 +160,111 @@ class Estoque:
         entryPesquisa = Entry(framePesquisa, width=30)
         entryPesquisa.pack(fill=X, side=LEFT, padx=5)
 
-        buttonPesquisa = Button(framePesquisa, text="Buscar")
-        buttonPesquisa.pack(fill=X, side=LEFT, padx=5)
-
         frameFiltro = Frame(frameTopo, bg='green')
         frameFiltro.pack(fill=BOTH, expand=True, side=BOTTOM)
 
         labelPesquisa = Label(frameFiltro, text="Filtrar por: ", font=("Arial", 12), bg='brown', fg='white')
         labelPesquisa.pack(fill=X, side=LEFT, padx=5)
 
+        def pesquisarItem():
+            termo = entryPesquisa.get().lower()
+
+            tree.delete(*tree.get_children())
+
+            for produto in self.produtos:
+                if termo in produto[2].lower():  # índice 2 = nome
+                    tree.insert("", END, values=produto)
+
+        entryPesquisa.bind("<KeyRelease>", lambda event: pesquisarItem())
+
         comboFiltro = ttk.Combobox(frameFiltro, width=12, state="readonly")
-        comboFiltro["values"] = ("Nome", "Quantidade", "preço")
+        comboFiltro["values"] = ("All", "Nome", "Quantidade", "Preço")
         comboFiltro.current(0)
+
         comboFiltro.pack(fill=X, side=LEFT, padx=5)
 
-        comboButton = Button(frameFiltro, text="Filtrar")
-        comboButton.pack(fill=X, side=LEFT, padx=5)
+        def filtrarItens(event):
+            valor = comboFiltro.get()
+            if self.produtos == '':
+                pass
+
+            for item in tree.get_children():
+                tree.delete(item)
+            print(self.produtos)
+            if valor == "All":
+                for item in self.produtos:
+                    tree.insert("", END, values=item)
+            elif valor == "Nome":
+                produtosOrdenados = sorted(self.produtos, key=lambda p: p[2].lower())
+                for item in produtosOrdenados:
+                    tree.insert("", END, values=item)
+            elif valor == "Quantidade":
+                produtosOrdenados = sorted(self.produtos, key=lambda q: q[3])
+                for item in produtosOrdenados:
+                    tree.insert("", END, values=item)
+            elif valor == "Preço":
+                produtosOrdenados = sorted(self.produtos, key=lambda q: q[4])
+                for item in produtosOrdenados:
+                    tree.insert("", END, values=item)
+
+        comboFiltro.bind("<<ComboboxSelected>>", filtrarItens)
 
         frameCentral = Frame(framePrincipal, bg='yellow')
         frameCentral.pack(fill=BOTH, expand=True)
 
-        colunas = ("Codigo", "Produto", "Qtd", "Preço")
+        colunas = ("Id", "Codigo", "Produto", "Qtd", "Preço", "Data")
         tree = ttk.Treeview(frameCentral, columns=colunas, show="headings", height=10)
         tree.pack(padx=10, pady=10, fill=BOTH, expand=True, side=BOTTOM)
 
         # Cabeçalhos
+        tree.heading("Id", text="Id")
         tree.heading("Codigo", text="Codigo")
         tree.heading("Produto", text="Produto")
         tree.heading("Qtd", text="Qtd")
         tree.heading("Preço", text="Preço")
+        tree.heading("Data", text="Data")
 
         # Tamanhos das colunas
-
+        tree.column("Id", width=150)
         tree.column("Codigo", width=150)
         tree.column("Produto", width=150)
         tree.column("Qtd", width=10)
         tree.column("Preço", width=80)
+        tree.column("Data", width=100)
 
-        # Dados de exemplo
-        produtos = [
-            ("243235342356", "Arroz", 2, "R$ 10,00"),
-            ("243235342356", "Macarrão", 3, "R$ 5,50"),
-            ("243235342356", "Feijão", 1, "R$ 8,00")
-        ]
+        def selecionarIten(event):
+            self.itemSelecionado = tree.focus()
+            if not self.itemSelecionado:
+                return  # Nada selecionado, sai da função
 
-        for item in produtos:
-            tree.insert("", END, values=item)
+            value = tree.item(self.itemSelecionado, 'values')
+            if not value or len(value) < 5:
+                return  # Valores insuficientes para preencher os campos
 
+            print(value)
+
+            limparEntry()
+
+            entryProduto.insert(0, value[2])  # Nome
+            entryQtd.insert(0, value[3])  # Quantidade
+            entryValor.insert(0, value[4])  # Valor
+
+        tree.bind("<<TreeviewSelect>>", selecionarIten)
+
+        def preencherList():
+            # Limpa os dados anteriores da Treeview
+            for item in tree.get_children():
+                tree.delete(item)
+
+            # Busca os produtos no banco
+            self.produtos = db.fetch()
+
+            # Insere cada produto na Treeview
+            for item in self.produtos:
+                tree.insert("", END, values=item)
+
+        preencherList()
         janela.mainloop()
-
-    def gerarCodigo(self):
-        code = ''
-        for _ in range(6):
-            pin = randint(0, 9)
-            code += str(pin)
-        return code
 
 
 if __name__ == "__main__":
