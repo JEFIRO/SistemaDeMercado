@@ -13,17 +13,20 @@ class Main:
         self.janela.state('zoomed')
         self.janela.resizable(False, False)
 
+        def puxarTelaDeEstoque():
+            from estoque import Estoque
+            self.janela.destroy()
+            Estoque()
+
         menuBarra = Menu(self.janela)
 
         menuArquivo = Menu(menuBarra, tearoff=0)
-        menuArquivo.add_command(label="Novo")
-        menuArquivo.add_command(label="Abrir")
+        menuArquivo.add_command(label="Estoque", command=puxarTelaDeEstoque)
         menuArquivo.add_separator()
         menuArquivo.add_command(label="Sair", command=self.janela.quit)
-        menuBarra.add_cascade(label="Arquivo", menu=menuArquivo)
+        menuBarra.add_cascade(label="Menu", menu=menuArquivo)
 
         self.janela.config(menu=menuBarra)
-
 
         self.framePrincipal = Frame(self.janela, bg=self.azulmarinho)
         self.framePrincipal.pack(expand=True, fill=BOTH)
@@ -59,7 +62,7 @@ class Main:
 
         colunas = ("Codigo", "Produto", "Qtd", "Preço")
         self.tree = ttk.Treeview(self.frameCentral, columns=colunas, show="headings", height=10)
-        self.tree.pack(padx=10, pady=10,fill=X)
+        self.tree.pack(padx=10, pady=10, fill=X)
 
         # Cabeçalhos
         self.tree.heading("Codigo", text="Codigo")
@@ -100,7 +103,6 @@ class Main:
         entryQtd.grid(row=0, column=3, pady=5, padx=5)
 
         self.janela.mainloop()
-
 
 
 if __name__ == "__main__":
