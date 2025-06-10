@@ -9,9 +9,14 @@ def gerar_codigo():
 
 class Produtos:
 
-    def __init__(self, nome, quantidade, valor, codigo=None, data=None):
+    def __init__(self, nome, quantidade, valor, categoria, codigo=None, data=None, id=None):
+        self.id = id
         self.codigo = codigo if codigo is not None else gerar_codigo()
         self.nome = nome
         self.quantidade = quantidade
         self.valor = valor
+        self.categoria = categoria
         self.data = data if data is not None else date.today().strftime("%Y-%m-%d")
+
+    def __str__(self):
+        return f"Produto(id={self.id}, nome='{self.nome}', quantidade={self.quantidade}, valor={self.valor}, codigo={self.codigo}, data='{self.data}')"

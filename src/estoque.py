@@ -58,19 +58,28 @@ class Estoque:
         entryValor = Entry(frameCadastro)
         entryValor.grid(row=2, column=1, padx=5, pady=5)
 
+        labelCategoria = Label(frameCadastro, text="Categoria")
+        labelCategoria.grid(row=3, column=0, padx=5, pady=5)
+
+        comboCategoria = ttk.Combobox(frameCadastro, width=17, state="readonly")
+        comboCategoria["values"] = ("Outros", "Alimentos", "Limpeza", "Higiene", "Bebidas")
+        comboCategoria.current(0)
+        comboCategoria.grid(row=3, column=1, padx=5, pady=5)
+
         def limparEntry():
+            comboCategoria.current(0)
             entryProduto.delete(0, END)
             entryQtd.delete(0, END)
             entryValor.delete(0, END)
 
         def cadastrarItem():
-            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "":
+            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "" or comboCategoria.get() == "":
                 return messagebox.showerror("Erro", "Todos os Campos devem ser preenchidos!")
             try:
                 quantidade = int(entryQtd.get())
                 valor = float(entryValor.get().replace(",", "."))
 
-                produto = Produtos(entryProduto.get().capitalize(), quantidade, valor)
+                produto = Produtos(entryProduto.get().capitalize(), quantidade, valor, comboCategoria.get())
                 db.insert(produto)
                 preencherList()
                 messagebox.showinfo("Sucesso", "Produto cadastrado com sucesso!")
@@ -82,13 +91,13 @@ class Estoque:
                 messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
 
         buttonCadastrar = Button(frameCadastro, text="cadastrar item", width=40, command=cadastrarItem)
-        buttonCadastrar.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+        buttonCadastrar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
         def atualizarItem():
             if self.itemSelecionado is None or self.itemSelecionado == '':
                 return messagebox.showerror("Erro", "Selecione um item")
 
-            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "":
+            if entryProduto.get() == "" or entryQtd.get() == "" or entryValor.get() == "" or comboCategoria.get() == "":
                 return messagebox.showerror("Erro", "Todos os Campos devem ser preenchidos!")
 
             try:
@@ -103,6 +112,7 @@ class Estoque:
                     nome=entryProduto.get().capitalize(),
                     quantidade=quantidade,
                     valor=valor,
+                    categoria=comboCategoria.get(),
                     codigo=valores[1],  # código original
                     data=valores[5]  # data original
                 )
@@ -117,7 +127,7 @@ class Estoque:
                 messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
 
         buttonAtualizar = Button(frameCadastro, text="Atualizar item", width=40, command=atualizarItem)
-        buttonAtualizar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+        buttonAtualizar.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
         def deleterItem():
             if self.itemSelecionado is None or self.itemSelecionado == '':
@@ -143,7 +153,7 @@ class Estoque:
                 messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
 
         buttonAtualizar = Button(frameCadastro, text="Deletar item", width=40, command=deleterItem)
-        buttonAtualizar.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+        buttonAtualizar.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
         frameTopo = Frame(framePrincipal, bg='brown')
         frameTopo.pack(fill=BOTH, expand=True, side=TOP)
@@ -212,7 +222,7 @@ class Estoque:
         frameCentral = Frame(framePrincipal, bg='yellow')
         frameCentral.pack(fill=BOTH, expand=True)
 
-        colunas = ("Id", "Codigo", "Produto", "Qtd", "Preço", "Data")
+        colunas = ("Id", "Codigo", "Produto", "Qtd", "Preço", "Categoria", "Data")
         tree = ttk.Treeview(frameCentral, columns=colunas, show="headings", height=10)
         tree.pack(padx=10, pady=10, fill=BOTH, expand=True, side=BOTTOM)
 
@@ -222,6 +232,7 @@ class Estoque:
         tree.heading("Produto", text="Produto")
         tree.heading("Qtd", text="Qtd")
         tree.heading("Preço", text="Preço")
+        tree.heading("Categoria", text="Categoria")
         tree.heading("Data", text="Data")
 
         # Tamanhos das colunas
@@ -230,6 +241,7 @@ class Estoque:
         tree.column("Produto", width=150)
         tree.column("Qtd", width=10)
         tree.column("Preço", width=80)
+        tree.column("Categoria", width=80)
         tree.column("Data", width=100)
 
         def selecionarIten(event):
@@ -248,6 +260,7 @@ class Estoque:
             entryProduto.insert(0, value[2])  # Nome
             entryQtd.insert(0, value[3])  # Quantidade
             entryValor.insert(0, value[4])  # Valor
+            comboCategoria.set(value[5])
 
         tree.bind("<<TreeviewSelect>>", selecionarIten)
 

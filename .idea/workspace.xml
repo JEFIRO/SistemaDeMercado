@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="tela do estoque completa">
-      <change afterPath="$PROJECT_DIR$/src/alimentarDb.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/banco.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/entity/Produtos.py" afterDir="false" />
+    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="relacionamento entre o sistema de vendas e estoque">
+      <change afterPath="$PROJECT_DIR$/src/Test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Vendas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CRUD.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CRUD.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/alimentarDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alimentarDb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/banco.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/banco.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Produtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Produtos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/estoque.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/estoque.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,9 +30,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2yE7Vz200P5U1Azd2gG5zCbrcWW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -43,6 +46,7 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Python.CRUD.executor": "Run",
     "Python.Produtos.executor": "Run",
+    "Python.Test.executor": "Run",
     "Python.alimentarDb.executor": "Run",
     "Python.estoque.executor": "Run",
     "Python.main.executor": "Run",
@@ -97,7 +101,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749428309692</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="tela do estoque completa e funcionando o CRUD e relacionamento entre o sistema de vendas e estoque">
+      <option name="closed" value="true" />
+      <created>1749437886513</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749437886513</updated>
+    </task>
+    <task id="LOCAL-00005" summary="relacionamento entre o sistema de vendas e estoque">
+      <option name="closed" value="true" />
+      <created>1749437904997</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749437904997</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -123,13 +143,6 @@
             <State>
               <option name="FILTERS">
                 <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="Jefiro" />
-                      </list>
-                    </value>
-                  </entry>
                   <entry key="user">
                     <value>
                       <list>
@@ -150,6 +163,8 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="primeira tela completa" />
     <MESSAGE value="tela do estoque completa" />
-    <option name="LAST_COMMIT_MESSAGE" value="tela do estoque completa" />
+    <MESSAGE value="tela do estoque completa e funcionando o CRUD e relacionamento entre o sistema de vendas e estoque" />
+    <MESSAGE value="relacionamento entre o sistema de vendas e estoque" />
+    <option name="LAST_COMMIT_MESSAGE" value="relacionamento entre o sistema de vendas e estoque" />
   </component>
 </project>

@@ -6,7 +6,6 @@ class Database:
         self.con = sqlite3.connect(db)
         self.cursor = self.con.cursor()
 
-        # Criação da tabela produtos (renomeando de para "produtos" faz mais sentido aqui)
         sql = """
         CREATE TABLE IF NOT EXISTS produtos(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,6 +13,7 @@ class Database:
             nome TEXT,
             quantidade INTEGER,
             valor FLOAT,
+            categoria TEXT,
             data TEXT
         )"""
         self.cursor.execute(sql)
@@ -21,15 +21,21 @@ class Database:
 
     def insert(self, produto):
         self.cursor.execute("""
-            INSERT INTO produtos (codigo, nome, quantidade, valor, data)
-            VALUES (?, ?, ?, ?, ?)
-        """, (produto.codigo, produto.nome, produto.quantidade, produto.valor, produto.data))
+            INSERT INTO produtos (codigo, nome, quantidade, valor, data,categoria)
+            VALUES (?, ?, ?, ?, ?,?)
+        """, (produto.codigo, produto.nome, produto.quantidade, produto.valor, produto.data, produto.categoria))
         self.con.commit()
 
     def update(self, id, produto):
         self.cursor.execute("""
-            UPDATE produtos SET codigo=?, nome=?, quantidade=?, valor=?, data=? WHERE id=?
-        """, (produto.codigo, produto.nome, produto.quantidade, produto.valor, produto.data, id))
+            UPDATE produtos SET codigo=?, nome=?, quantidade=?, valor=?, data=?,categoria=? WHERE id=?
+        """, (produto.codigo, produto.nome, produto.quantidade, produto.valor, produto.categoria, produto.data, id))
+        self.con.commit()
+
+    def updateQTD(self, id, qtd):
+        self.cursor.execute("""
+            UPDATE produtos SET quantidade = quantidade - ? WHERE id = ?
+        """, (qtd, id))
         self.con.commit()
 
     def remove(self, id):
@@ -39,3 +45,7 @@ class Database:
     def fetch(self):
         self.cursor.execute("SELECT * FROM produtos")
         return self.cursor.fetchall()
+
+    def findById(self, id):
+        self.cursor.execute("SELECT * FROM produtos WHERE id = ?", (id,))
+        return self.cursor.fetchone()
