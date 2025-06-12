@@ -99,7 +99,7 @@ class Estoque:
             except Exception as e:
                 messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
 
-        image = Image.open("caminho_para_a_imagem.png")  # Substitua "caminho_para_a_imagem.png" pelo caminho real
+
         buttonCadastrar = Button(frameCadastro, text="cadastrar item", width=40, command=cadastrarItem)
         buttonCadastrar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
@@ -114,19 +114,18 @@ class Estoque:
                 quantidade = int(entryQtd.get())
                 valor = float(entryValor.get().replace(",", "."))
 
-                # Aqui pegamos os valores da linha selecionada
                 item_id = self.itemSelecionado
-                valores = tree.item(item_id, 'values')  # Essa é a tupla correta
+                valores = tree.item(item_id, 'values')
                 print(valores)
                 produto = Produtos(
                     nome=entryProduto.get().capitalize(),
                     quantidade=quantidade,
                     valor=valor,
                     categoria=comboCategoria.get(),
-                    codigo=valores[1],  # código original
-                    data=valores[6]  # data original
+                    codigo=valores[1],
+                    data=valores[6]
                 )
-                db.update(valores[0], produto)  # valores[0] = ID do produto no banco
+                db.update(valores[0], produto)
                 preencherList()
                 limparEntry()
                 messagebox.showinfo("Sucesso", "Produto atualizado com sucesso!")

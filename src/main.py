@@ -255,21 +255,27 @@ class Main:
             janela.resizable(False, False)
             janela.configure(bg=self.azulMarinho)
             janela.focus_set()
-            Label(janela, text="Finalizar Venda", font=("Arial", 20, "bold"), bg="#001F3F", fg="white").pack(pady=20)
 
+            Label(janela, text="Finalizar Venda", font=("Arial", 20, "bold"), bg="#001F3F", fg="white").pack(pady=20)
             Label(janela, text="Valor Total:", font=("Arial", 14), bg="#001F3F", fg="white").pack(pady=5)
 
             def get_valor_final():
-                return self.totalComDesconto if self.totalComDesconto else self.total
+                try:
+                    return float(self.totalComDesconto) if self.totalComDesconto else float(self.total)
+                except:
+                    return 0.0
 
-            valor = StringVar()
-            valor.set(f"{get_valor_final():.2f}")
+            valor = StringVar(value=f"{get_valor_final():.2f}")
             Label(janela, textvariable=valor, font=("Arial", 14), bg="#001F3F", fg="white").pack(pady=5)
 
-            valorASerPago = StringVar()
-            valorASerPago.set(f"Valor a ser pago: R$ {get_valor_final():.2f}")
+            valorASerPago = StringVar(value=f"Valor a ser pago: R$ {get_valor_final():.2f}")
             valorAserPago = Label(janela, textvariable=valorASerPago, fg=self.brancoClaro, bg=self.azulMarinho,
                                   font=("Arial", 16), pady=10)
+
+            # Estilo do Combobox
+            style = ttk.Style()
+            style.theme_use("default")
+            style.configure("TCombobox", fieldbackground=self.azulMarinho, background="white", foreground="black")
 
             pagamento = ttk.Combobox(janela, width=17, state="readonly")
             pagamento["values"] = ("Pix", "Dinheiro", "Credito 1X", "Debito")
@@ -277,10 +283,10 @@ class Main:
 
             def calcularTroco():
                 try:
-                    total = float(self.totalComDesconto)
+                    total = get_valor_final()
                     pago = float(entryPago.get().replace(",", "."))
-                    troco = pago - total
-                    labelTroco.config(text=f"Troco: R$ {troco:.2f}")
+                    troco_valor = pago - total
+                    labelTroco.config(text=f"Troco: R$ {troco_valor:.2f}")
                 except ValueError:
                     labelTroco.config(text="Entrada inválida")
 
@@ -294,20 +300,43 @@ class Main:
                     limparTudo()
                     janela.destroy()
 
-            def confirmarVenda(event):
-                atualizarEstoque()
+            def confirmarVenda(event=None):
+                if pagamento.get() not in pagamento["values"]:
+                    messagebox.showwarning("Forma de pagamento inválida", "Selecione uma forma de pagamento válida.")
+                    return
                 for item in self.listaDeCompras:
-                    dbVendas.registrarVenda(item[2], int(item[3]), float(item[4]), item[5], item[6],
-                                            datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                                            )
+                    dbVendas.registrarVenda(
+                        item[2],
+                        int(item[3]),
+                        pagamento.get(),
+                        item[5],
+                        item[6],
+                        datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    )
+                atualizarEstoque()
 
             labelPago = Label(janela, text="Valor Pago:", font=("Arial", 14), bg="#001F3F", fg="white")
             entryPago = Entry(janela, font=("Arial", 14))
-            troco = Button(janela, text="Calcular Troco", font=("Arial", 12))
+            troco = Button(janela, text="Calcular Troco", font=("Arial", 12), command=calcularTroco)
             labelTroco = Label(janela, text="Troco: R$ 0.00", font=("Arial", 14), bg="#001F3F", fg="white")
             confirmar = Button(janela, text="Confirmar Venda", font=("Arial", 14), bg="#FFDB58", command=confirmarVenda)
 
+            def bloquear_digitos_invalidos(event):
+                if event.char.isdigit() or event.char == ',':
+                    return
+                elif event.keysym == "BackSpace":
+                    return
+                else:
+                    return "break"
+
+            entryPago.bind("<Key>", bloquear_digitos_invalidos)
+
             def on_key_press(event):
+                widget_focado = janela.focus_get()
+
+                if widget_focado == entryPago:
+                    return
+
                 if event.char in ['1', '2', '3', '4']:
                     indice = int(event.char) - 1
                     if indice < len(pagamento["values"]):
@@ -365,9 +394,13 @@ class Main:
             janela.title("Editar Item")
             janela.resizable(False, False)
 
-            Label(janela, text="Quantidade:", font=("Arial", 12)).pack(pady=10)
-            entrada_qtd = Entry(janela, font=("Arial", 12))
-            entrada_qtd.insert(0, str(produto[3]))  # Valor atual da quantidade
+            framePrincipal = Frame(janela, bg=self.azulMarinho)
+            framePrincipal.pack(fill=BOTH, expand=True)
+
+            Label(framePrincipal, text="Quantidade:", font=("Arial", 16, "bold"), bg=self.azulMarinho,
+                  fg=self.brancoClaro).pack(pady=10)
+            entrada_qtd = Entry(framePrincipal, font=("Arial", 12))
+            entrada_qtd.insert(0, str(produto[3]))
             entrada_qtd.pack()
             entrada_qtd.focus_set()
             janela.bind("<Escape>", lambda event: janela.destroy())
@@ -394,7 +427,7 @@ class Main:
                 except ValueError:
                     messagebox.showerror("Erro", "Insira uma quantidade válida.")
 
-            buttonSave = Button(janela, text="Salvar", command=salvar)
+            buttonSave = Button(framePrincipal, text="Salvar", command=salvar)
             buttonSave.pack(pady=10)
 
             janela.transient(self.janela)

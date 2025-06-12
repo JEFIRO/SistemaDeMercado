@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="relacionamento entre o sistema de vendas e estoque">
-      <change afterPath="$PROJECT_DIR$/src/image/cadastrar.png" afterDir="false" />
+    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="justes finais">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CRUD.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CRUD.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alimentarDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alimentarDb.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/banco.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/banco.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Produtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Produtos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/estoque.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/estoque.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vendas.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/vendas.db" afterDir="false" />
@@ -118,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749437904997</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="justes finais">
+      <option name="closed" value="true" />
+      <created>1749769337685</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749769337685</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,6 +170,7 @@
     <MESSAGE value="tela do estoque completa" />
     <MESSAGE value="tela do estoque completa e funcionando o CRUD e relacionamento entre o sistema de vendas e estoque" />
     <MESSAGE value="relacionamento entre o sistema de vendas e estoque" />
-    <option name="LAST_COMMIT_MESSAGE" value="relacionamento entre o sistema de vendas e estoque" />
+    <MESSAGE value="justes finais" />
+    <option name="LAST_COMMIT_MESSAGE" value="justes finais" />
   </component>
 </project>
