@@ -10,6 +10,13 @@ class Estoque:
     def __init__(self):
         self.produtos = None
         self.itemSelecionado = None
+
+        self.azulMarinho = "#001F3F"
+        self.azulMedio = "#4682B4"
+        self.amareloMostarda = "#FFDB58"
+        self.brancoClaro = "#F5FFFA"
+        self.textoClaro = "#FAFAFA"
+
         self.tela()
 
     def tela(self):
@@ -37,28 +44,30 @@ class Estoque:
         framePrincipal = Frame(janela, bg="blue")
         framePrincipal.pack(fill=BOTH, expand=True)
 
-        frameCadastro = Frame(framePrincipal, bg="red", width=400)
+        frameCadastro = Frame(framePrincipal, bg=self.azulMarinho, width=400)
         frameCadastro.pack(side=LEFT, fill=Y)
 
-        labelProduto = Label(frameCadastro, text="Nome do produto")
+        labelProduto = Label(frameCadastro, text="Nome do produto", bg=self.azulMarinho, font=("Arial", 16),
+                             fg=self.brancoClaro)
         labelProduto.grid(row=0, column=0, padx=5, pady=5)
 
         entryProduto = Entry(frameCadastro)
         entryProduto.grid(row=0, column=1, padx=5, pady=5)
 
-        labelQtd = Label(frameCadastro, text="Quantidade")
+        labelQtd = Label(frameCadastro, text="Quantidade", bg=self.azulMarinho, font=("Arial", 16), fg=self.brancoClaro)
         labelQtd.grid(row=1, column=0, padx=5, pady=5)
 
         entryQtd = Entry(frameCadastro)
         entryQtd.grid(row=1, column=1, padx=5, pady=5)
 
-        labelValor = Label(frameCadastro, text="Valor")
+        labelValor = Label(frameCadastro, text="Valor", bg=self.azulMarinho, font=("Arial", 16), fg=self.brancoClaro)
         labelValor.grid(row=2, column=0, padx=5, pady=5)
 
         entryValor = Entry(frameCadastro)
         entryValor.grid(row=2, column=1, padx=5, pady=5)
 
-        labelCategoria = Label(frameCadastro, text="Categoria")
+        labelCategoria = Label(frameCadastro, text="Categoria", bg=self.azulMarinho, font=("Arial", 16),
+                               fg=self.brancoClaro)
         labelCategoria.grid(row=3, column=0, padx=5, pady=5)
 
         comboCategoria = ttk.Combobox(frameCadastro, width=17, state="readonly")
@@ -90,6 +99,7 @@ class Estoque:
             except Exception as e:
                 messagebox.showerror("Erro inesperado", f"Ocorreu um erro:\n{e}")
 
+        image = Image.open("caminho_para_a_imagem.png")  # Substitua "caminho_para_a_imagem.png" pelo caminho real
         buttonCadastrar = Button(frameCadastro, text="cadastrar item", width=40, command=cadastrarItem)
         buttonCadastrar.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
 
@@ -107,14 +117,14 @@ class Estoque:
                 # Aqui pegamos os valores da linha selecionada
                 item_id = self.itemSelecionado
                 valores = tree.item(item_id, 'values')  # Essa é a tupla correta
-
+                print(valores)
                 produto = Produtos(
                     nome=entryProduto.get().capitalize(),
                     quantidade=quantidade,
                     valor=valor,
                     categoria=comboCategoria.get(),
                     codigo=valores[1],  # código original
-                    data=valores[5]  # data original
+                    data=valores[6]  # data original
                 )
                 db.update(valores[0], produto)  # valores[0] = ID do produto no banco
                 preencherList()
@@ -155,26 +165,32 @@ class Estoque:
         buttonAtualizar = Button(frameCadastro, text="Deletar item", width=40, command=deleterItem)
         buttonAtualizar.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
-        frameTopo = Frame(framePrincipal, bg='brown')
+        self.saparete = Frame(framePrincipal, bg='black', width=5)
+        self.saparete.pack(side=LEFT, fill=Y)
+
+        frameTopo = Frame(framePrincipal, bg=self.azulMedio)
         frameTopo.pack(fill=BOTH, expand=True, side=TOP)
 
-        labelTitulo = Label(frameTopo, text="Pesquisa de produtos", font=("Arial", 16), bg='brown', fg='white')
+        labelTitulo = Label(frameTopo, text="Pesquisa de produtos", font=("Arial", 16), bg=self.azulMedio, fg='white')
         labelTitulo.pack(fill=X, side=TOP)
 
-        framePesquisa = Frame(frameTopo, bg='brown')
+        framePesquisa = Frame(frameTopo, bg=self.azulMedio)
         framePesquisa.pack(fill=BOTH, expand=True, side=TOP)
 
-        labelPesquisa = Label(framePesquisa, text="Nome", font=("Arial", 12), bg='brown', fg='white')
+        labelPesquisa = Label(framePesquisa, text="Nome", font=("Arial", 12), bg=self.azulMedio, fg='white')
         labelPesquisa.pack(fill=X, side=LEFT, padx=5)
 
         entryPesquisa = Entry(framePesquisa, width=30)
         entryPesquisa.pack(fill=X, side=LEFT, padx=5)
 
-        frameFiltro = Frame(frameTopo, bg='green')
+        frameFiltro = Frame(frameTopo, bg=self.azulMedio)
         frameFiltro.pack(fill=BOTH, expand=True, side=BOTTOM)
 
-        labelPesquisa = Label(frameFiltro, text="Filtrar por: ", font=("Arial", 12), bg='brown', fg='white')
+        labelPesquisa = Label(frameFiltro, text="Filtrar por: ", font=("Arial", 12), bg=self.azulMedio, fg='white')
         labelPesquisa.pack(fill=X, side=LEFT, padx=5)
+
+        self.sapareteX = Frame(framePrincipal, bg='black', width=5)
+        self.sapareteX.pack(side=TOP, fill=X)
 
         def pesquisarItem():
             termo = entryPesquisa.get().lower()
@@ -219,7 +235,7 @@ class Estoque:
 
         comboFiltro.bind("<<ComboboxSelected>>", filtrarItens)
 
-        frameCentral = Frame(framePrincipal, bg='yellow')
+        frameCentral = Frame(framePrincipal, bg=self.azulMedio)
         frameCentral.pack(fill=BOTH, expand=True)
 
         colunas = ("Id", "Codigo", "Produto", "Qtd", "Preço", "Categoria", "Data")
@@ -244,14 +260,23 @@ class Estoque:
         tree.column("Categoria", width=80)
         tree.column("Data", width=100)
 
+        style = ttk.Style()
+        style.theme_use("default")
+        style.configure("Treeview",
+                        bg=self.brancoClaro,
+                        fg='black',
+                        rowheight=25,
+                        fieldbackground=self.brancoClaro)
+        style.map("Treeview", bg=[("selected", self.amareloMostarda)])
+
         def selecionarIten(event):
             self.itemSelecionado = tree.focus()
             if not self.itemSelecionado:
-                return  # Nada selecionado, sai da função
+                return
 
             value = tree.item(self.itemSelecionado, 'values')
             if not value or len(value) < 5:
-                return  # Valores insuficientes para preencher os campos
+                return
 
             print(value)
 
@@ -265,14 +290,11 @@ class Estoque:
         tree.bind("<<TreeviewSelect>>", selecionarIten)
 
         def preencherList():
-            # Limpa os dados anteriores da Treeview
             for item in tree.get_children():
                 tree.delete(item)
 
-            # Busca os produtos no banco
             self.produtos = db.fetch()
 
-            # Insere cada produto na Treeview
             for item in self.produtos:
                 tree.insert("", END, values=item)
 

@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="relacionamento entre o sistema de vendas e estoque">
-      <change afterPath="$PROJECT_DIR$/src/Test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Vendas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/image/cadastrar.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CRUD.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/CRUD.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/alimentarDb.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/alimentarDb.py" afterDir="false" />
@@ -14,6 +13,7 @@
       <change beforePath="$PROJECT_DIR$/src/entity/Produtos.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Produtos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/estoque.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/estoque.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vendas.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/vendas.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,22 +41,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.CRUD.executor": "Run",
-    "Python.Produtos.executor": "Run",
-    "Python.Test.executor": "Run",
-    "Python.alimentarDb.executor": "Run",
-    "Python.estoque.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Jefiro"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.CRUD.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Produtos.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.alimentarDb.executor&quot;: &quot;Run&quot;,
+    &quot;Python.estoque.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Jefiro&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Usuario\Documents\Projetos\ProjetoFinal\SistemaDeMercado\src\image" />
       <recent name="C:\Users\Usuario\Documents\Projetos\ProjetoFinal\SistemaDeMercado\src" />
       <recent name="C:\Users\Usuario\Documents\Projetos\ProjetoFinal\SistemaDeMercado" />
     </key>

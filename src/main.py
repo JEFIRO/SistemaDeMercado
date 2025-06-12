@@ -1,12 +1,13 @@
 from tkinter import *
-from tkinter import ttk, messagebox
+from tkinter import messagebox
+
 from CRUD import Database
 from Vendas import Vendas
-from datetime import datetime
 
 
 class Main:
     def __init__(self):
+        self.itemTemp = None
         self.total = 0
         self.totalComDesconto = 0
 
@@ -33,129 +34,6 @@ class Main:
         from tkinter import Toplevel, Button, ttk, Menu
         from datetime import datetime
 
-        # Supondo que você já tenha a classe Vendas definida com os métodos de relatório
-
-        def relatorio_por_dia(dbVendas):
-            janela = Toplevel()
-            janela.title("Relatório por Dia")
-            janela.geometry("500x300")
-
-            tree = ttk.Treeview(janela, columns=("Data", "Total"), show="headings")
-            tree.heading("Data", text="Data")
-            tree.heading("Total", text="Total (R$)")
-            tree.column("Data", width=200)
-            tree.column("Total", width=100, anchor="center")
-            tree.pack(pady=20, expand=True, fill="both")
-
-            def carregar_dados():
-                for row in tree.get_children():
-                    tree.delete(row)
-                for data, total in dbVendas.relatorioPorDia():
-                    tree.insert("", "end", values=(data, f"{total:.2f}"))
-
-            btn = Button(janela, text="Carregar Relatório", command=carregar_dados)
-            btn.pack(pady=10)
-
-        def relatorio_por_produto(dbVendas):
-            janela = Toplevel()
-            janela.title("Relatório por Produto")
-            janela.geometry("600x300")
-
-            tree = ttk.Treeview(janela, columns=("Produto", "Quantidade", "Total"), show="headings")
-            tree.heading("Produto", text="Produto")
-            tree.heading("Quantidade", text="Quantidade")
-            tree.heading("Total", text="Total (R$)")
-            tree.column("Produto", width=250)
-            tree.column("Quantidade", width=100, anchor="center")
-            tree.column("Total", width=100, anchor="center")
-            tree.pack(pady=20, expand=True, fill="both")
-
-            def carregar_dados():
-                for row in tree.get_children():
-                    tree.delete(row)
-                for produto, qtd, total in dbVendas.relatorioPorProduto():
-                    tree.insert("", "end", values=(produto, qtd, f"{total:.2f}"))
-
-            btn = Button(janela, text="Carregar Relatório", command=carregar_dados)
-            btn.pack(pady=10)
-
-        def relatorio_por_categoria(dbVendas):
-            janela = Toplevel()
-            janela.title("Relatório por Categoria")
-            janela.geometry("600x300")
-
-            tree = ttk.Treeview(janela, columns=("Categoria", "Quantidade", "Total"), show="headings")
-            tree.heading("Categoria", text="Categoria")
-            tree.heading("Quantidade", text="Quantidade")
-            tree.heading("Total", text="Total (R$)")
-            tree.column("Categoria", width=250)
-            tree.column("Quantidade", width=100, anchor="center")
-            tree.column("Total", width=100, anchor="center")
-            tree.pack(pady=20, expand=True, fill="both")
-
-            def carregar_dados():
-                for row in tree.get_children():
-                    tree.delete(row)
-                for categoria, qtd, total in dbVendas.relatorioPorCategoria():
-                    tree.insert("", "end", values=(categoria, qtd, f"{total:.2f}"))
-
-            btn = Button(janela, text="Carregar Relatório", command=carregar_dados)
-            btn.pack(pady=10)
-
-        def relatorio_por_forma_pagamento(dbVendas):
-            janela = Toplevel()
-            janela.title("Relatório por Forma de Pagamento")
-            janela.geometry("500x300")
-
-            tree = ttk.Treeview(janela, columns=("Forma de Pagamento", "Total"), show="headings")
-            tree.heading("Forma de Pagamento", text="Forma de Pagamento")
-            tree.heading("Total", text="Total (R$)")
-            tree.column("Forma de Pagamento", width=250)
-            tree.column("Total", width=100, anchor="center")
-            tree.pack(pady=20, expand=True, fill="both")
-
-            def carregar_dados():
-                for row in tree.get_children():
-                    tree.delete(row)
-                for forma, total in dbVendas.relatorioPorFormaDePagamento():
-                    tree.insert("", "end", values=(forma, f"{total:.2f}"))
-
-            btn = Button(janela, text="Carregar Relatório", command=carregar_dados)
-            btn.pack(pady=10)
-
-        def relatorio_detalhado(dbVendas):
-            janela = Toplevel()
-            janela.title("Relatório Detalhado")
-            janela.geometry("800x400")
-
-            tree = ttk.Treeview(janela,
-                                columns=("Data", "Produto", "Quantidade", "Preço", "Categoria", "Forma de Pagamento"),
-                                show="headings")
-            tree.heading("Data", text="Data")
-            tree.heading("Produto", text="Produto")
-            tree.heading("Quantidade", text="Quantidade")
-            tree.heading("Preço", text="Preço (R$)")
-            tree.heading("Categoria", text="Categoria")
-            tree.heading("Forma de Pagamento", text="Forma de Pagamento")
-
-            tree.column("Data", width=100)
-            tree.column("Produto", width=200)
-            tree.column("Quantidade", width=80, anchor="center")
-            tree.column("Preço", width=80, anchor="center")
-            tree.column("Categoria", width=150)
-            tree.column("Forma de Pagamento", width=150)
-
-            tree.pack(pady=20, expand=True, fill="both")
-
-            def carregar_dados():
-                for row in tree.get_children():
-                    tree.delete(row)
-                for data, produto, quantidade, preco, categoria, forma in dbVendas.relatorioDetalhado():
-                    tree.insert("", "end", values=(data, produto, quantidade, f"{preco:.2f}", categoria, forma))
-
-            btn = Button(janela, text="Carregar Relatório", command=carregar_dados)
-            btn.pack(pady=10)
-
         menuBarra = Menu(self.janela)
 
         # Menu "Menu"
@@ -165,15 +43,7 @@ class Main:
         menuArquivo.add_command(label="Sair", command=self.janela.quit)
         menuBarra.add_cascade(label="Menu", menu=menuArquivo)
 
-        # Menu "Relatórios"
-        menuRelatorios = Menu(menuBarra, tearoff=0)
-        menuRelatorios.add_command(label="Por Dia", command=lambda: relatorio_por_dia(dbVendas))
-        menuRelatorios.add_command(label="Por Produto", command=lambda: relatorio_por_produto(dbVendas))
-        menuRelatorios.add_command(label="Por Categoria", command=lambda: relatorio_por_categoria(dbVendas))
-        menuRelatorios.add_command(label="Por Forma de Pagamento",
-                                   command=lambda: relatorio_por_forma_pagamento(dbVendas))
-        menuRelatorios.add_command(label="Relatório Detalhado", command=lambda: relatorio_detalhado(dbVendas))
-        menuBarra.add_cascade(label="Relatórios", menu=menuRelatorios)
+        menuBarra.add_cascade(label="Relatórios")
 
         # Definir a barra de menus da janela
         self.janela.config(menu=menuBarra)
@@ -218,7 +88,6 @@ class Main:
         self.saparete = Frame(self.framePrincipal, bg=self.brancoClaro, width=2)
         self.saparete.pack(side=LEFT, fill=Y)
 
-        # Frame à direita que ocupa o resto do espaço
         self.frameDireita = Frame(self.framePrincipal)
         self.frameDireita.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -229,19 +98,11 @@ class Main:
         self.tree = ttk.Treeview(self.frameCentral, columns=colunas, show="headings", height=10)
         self.tree.pack(padx=10, pady=10, fill=BOTH, expand=True)
 
-        # Cabeçalhos
         self.tree.heading("Id", text="Id")
         self.tree.heading("Codigo", text="Codigo")
         self.tree.heading("Produto", text="Produto")
         self.tree.heading("Qtd", text="Qtd")
         self.tree.heading("Preço", text="Preço")
-
-        # Tamanhos das colunas
-        self.tree.column("Id", width=10)
-        self.tree.column("Codigo", width=150)
-        self.tree.column("Produto", width=150)
-        self.tree.column("Qtd", width=10)
-        self.tree.column("Preço", width=80)
 
         style = ttk.Style()
         style.theme_use("default")
@@ -259,7 +120,19 @@ class Main:
                             fg=self.textoClaro, font=("Arial", 14))
         labelCodigo.grid(row=0, column=0, pady=10, padx=5)
 
-        entryCodigo = Entry(self.frameInferior, width=15)
+        entryCodigo = Entry(
+            self.frameInferior,
+            width=15,
+            font=("Arial", 12),
+            bg=self.brancoClaro,
+            fg=self.azulMarinho,
+            insertbackground=self.azulMarinho,
+            highlightbackground=self.azulMedio,
+            highlightcolor=self.azulMedio,
+            highlightthickness=1,
+            relief="solid",
+            bd=1
+        )
         entryCodigo.grid(row=0, column=1, pady=10, padx=5)
 
         def calcularValorDaCompra():
@@ -274,7 +147,7 @@ class Main:
                     pass
 
             self.valorDaCompra.set(f"{self.total:.2f}")
-            calcularTotal()  # chama aqui, depois do total calculado
+            calcularTotal()
 
         def calcularTotal():
             if self.total >= 40 and self.total <= 199:
@@ -296,6 +169,8 @@ class Main:
                 termo = int(entryCodigo.get())
                 self.tupla = db.findById(termo)
 
+                print(self.tupla)
+
                 if self.tupla:
                     self.itemTemp = list(self.tupla)
                     entryQtd.delete(0, END)
@@ -309,13 +184,11 @@ class Main:
             try:
                 qtd = entryQtd.get()
 
-                # Se vazio ou inválido, define como 1
                 if qtd == '' or not qtd.isdigit() or int(qtd) <= 0:
                     qtd = 1
                 else:
                     qtd = int(qtd)
 
-                # Verifica se há estoque suficiente
                 estoque = self.tupla[3]
                 if qtd > estoque:
                     messagebox.showerror("Erro", "Não há itens suficientes no estoque")
@@ -339,7 +212,19 @@ class Main:
                          fg=self.textoClaro, font=("Arial", 14))
         labelQtd.grid(row=0, column=2, pady=10, padx=5)
 
-        entryQtd = Entry(self.frameInferior, width=15)
+        entryQtd = Entry(
+            self.frameInferior,
+            width=15,
+            font=("Arial", 12),
+            bg=self.brancoClaro,  # fundo claro
+            fg=self.azulMarinho,  # texto escuro para contraste
+            insertbackground=self.azulMarinho,  # cor do cursor
+            highlightbackground=self.azulMedio,  # borda externa
+            highlightcolor=self.azulMedio,
+            highlightthickness=1,
+            relief="solid",
+            bd=1
+        )
         entryQtd.grid(row=0, column=3, pady=10, padx=5)
 
         entryCodigo.bind("<Return>", pesquisarItem)
@@ -449,10 +334,104 @@ class Main:
             janela.bind("<KeyPress>", on_key_press)
             janela.bind("<Return>", confirmarVenda)
 
-            # Troco
+        def atualizarTreeView():
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+            for itemAdd in self.listaDeCompras:
+                self.tree.insert("", END, values=itemAdd)
+
+        def atualizarVenda(event):
+            selecionado = self.tree.focus()
+            if not selecionado:
+                return
+
+            item = self.tree.item(selecionado, 'values')
+            if not item:
+                return
+
+            produto = None
+
+            for items in self.listaDeCompras:
+                if str(items[0]) == str(item[0]):
+                    produto = items
+                    break
+
+            if not produto:
+                print("Produto não encontrado na lista.")
+                return
+
+            janela = Toplevel(self.janela)
+            janela.geometry("300x200")
+            janela.title("Editar Item")
+            janela.resizable(False, False)
+
+            Label(janela, text="Quantidade:", font=("Arial", 12)).pack(pady=10)
+            entrada_qtd = Entry(janela, font=("Arial", 12))
+            entrada_qtd.insert(0, str(produto[3]))  # Valor atual da quantidade
+            entrada_qtd.pack()
+            entrada_qtd.focus_set()
+            janela.bind("<Escape>", lambda event: janela.destroy())
+
+            def salvarEvent(event):
+                salvar()
+
+            def salvar():
+                try:
+                    nova_qtd = int(entrada_qtd.get())
+                    if nova_qtd <= 0:
+                        raise ValueError
+
+                    registro = db.findById(int(item[0]))
+                    print(registro)
+                    if nova_qtd > int(registro[3]):
+                        messagebox.showerror("Erro", "não á items suficientes no estoque")
+                        return
+                    produto[3] = nova_qtd
+                    atualizarTreeView()
+                    calcularValorDaCompra()
+                    entryCodigo.focus_set()
+                    janela.destroy()
+                except ValueError:
+                    messagebox.showerror("Erro", "Insira uma quantidade válida.")
+
+            buttonSave = Button(janela, text="Salvar", command=salvar)
+            buttonSave.pack(pady=10)
+
+            janela.transient(self.janela)
+            janela.grab_set()
+            janela.bind("<Return>", salvarEvent)
+
+            self.janela.wait_window(janela)
+
+        def deletarItemDaLista(event):
+
+            selecionado = self.tree.focus()
+            if not selecionado:
+                return
+
+            item = self.tree.item(selecionado, 'values')
+            resposta = messagebox.askokcancel("Alerta", f"deseja realmente remover esse item? {item[2]}")
+
+            if resposta:
+                self.tree.delete(selecionado)
+                if not item:
+                    return
+
+                for items in self.listaDeCompras:
+                    if str(items[0]) == str(item[0]):
+                        self.listaDeCompras.remove(items)
+                calcularValorDaCompra()
+            else:
+                return
 
         self.janela.bind("<F5>", finalizarVenda)
-        self.janela.bind("<F6>", cancelarVenda)
+        self.janela.bind("<F6>", atualizarVenda)
+        self.janela.bind("<F8>", deletarItemDaLista)
+        self.janela.bind("<F9>", cancelarVenda)
+
+        self.tree.bind("<Double-1>", atualizarVenda)
+
+        entryCodigo.focus_set()
         self.janela.mainloop()
 
 

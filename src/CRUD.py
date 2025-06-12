@@ -29,7 +29,7 @@ class Database:
     def update(self, id, produto):
         self.cursor.execute("""
             UPDATE produtos SET codigo=?, nome=?, quantidade=?, valor=?, data=?,categoria=? WHERE id=?
-        """, (produto.codigo, produto.nome, produto.quantidade, produto.valor, produto.categoria, produto.data, id))
+        """, (produto.codigo, produto.nome, produto.quantidade, produto.valor, produto.data, produto.categoria, id))
         self.con.commit()
 
     def updateQTD(self, id, qtd):

@@ -3,7 +3,7 @@ from random import randint
 
 
 def gerar_codigo():
-    codigo = str(randint(1, 9)) + ''.join(str(randint(0, 9)) for _ in range(5))
+    codigo = str(randint(1, 9)) + ''.join(str(randint(0, 9)) for _ in range(7))
     return codigo
 
 
