@@ -22,7 +22,7 @@ class Main:
 
         self.listaDeCompras = []
         self.janela = Tk()
-        self.janela.title("Tela Maximizando")
+        self.janela.title("Vendas")
         self.janela.state('zoomed')
         self.janela.resizable(False, False)
 

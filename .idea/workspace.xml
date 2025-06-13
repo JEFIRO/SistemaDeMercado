@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="justes finais">
+    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="justes finais e correção de bugs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/alimentarDb.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/banco.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/banco.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estoque.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/estoque.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/image/cadastrar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/image/search.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vendas.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/vendas.db" afterDir="false" />
     </list>
@@ -122,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749769337685</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="justes finais e correção de bugs">
+      <option name="closed" value="true" />
+      <created>1749772105899</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749772105899</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,6 +181,7 @@
     <MESSAGE value="tela do estoque completa e funcionando o CRUD e relacionamento entre o sistema de vendas e estoque" />
     <MESSAGE value="relacionamento entre o sistema de vendas e estoque" />
     <MESSAGE value="justes finais" />
-    <option name="LAST_COMMIT_MESSAGE" value="justes finais" />
+    <MESSAGE value="justes finais e correção de bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="justes finais e correção de bugs" />
   </component>
 </project>
