@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 
 from CRUD import Database
-from src.entity.Produtos import Produtos
+from entity.Produtos import Produtos
 
 
 class Estoque:
