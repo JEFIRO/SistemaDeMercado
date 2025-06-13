@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="justes finais e correção de bugs">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/alimentarDb.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/banco.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/banco.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/image/cadastrar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/image/search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vendas.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/vendas.db" afterDir="false" />
-    </list>
+    <list default="true" id="9ba0ef79-538f-4576-86e9-e7e84c469d9e" name="Changes" comment="justes finais e correção de bugs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749772105899</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="justes finais e correção de bugs">
+      <option name="closed" value="true" />
+      <created>1749772970321</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749772970321</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
